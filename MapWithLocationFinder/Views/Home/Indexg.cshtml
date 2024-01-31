@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Map Location Example";
+}
+
+<button id="showLocationBtn">Show My Location</button>
+<div id="map" style="height:400px; width:100%;"></div>
+<p id="location"></p>
+
+@section scripts {
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.ApiKey&callback=initMap"></script>
+    <script src="~/Scripts/MapScript.js"></script>
+}

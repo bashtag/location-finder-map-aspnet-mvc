@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Your Location</h2>
+<button id="locateBtn">Locate Me</button>
+<p id="locationText">Your location will appear here.</p>
+
+@Html.Partial("_MapPartial")
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    <script>
+        $(document).ready(function () {
+            $('#locateBtn').click(function () {
+                if (!navigator.geolocation) {
+                    $('#locationText').text("Geolocation is not supported by your browser.");
+                    return;
+                }
+
+                function success(position) {
+                    var latitude  = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+
+                    $('#locationText').text(`Latitude: ${latitude} °, Longitude: ${longitude} °`);
+
+                    // Call the function from the partial view to update the map and text
+                    window.updateMap(latitude, longitude);
+                }
+
+                function error() {
+                    $('#locationText').text("Unable to retrieve your location.");
+                }
+
+                $('#locationText').text("Locating…");
+                navigator.geolocation.getCurrentPosition(success, error);
+            });
+        });
+    </script>
+}

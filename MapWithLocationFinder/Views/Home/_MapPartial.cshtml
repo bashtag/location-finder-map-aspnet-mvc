@@ -1,0 +1,28 @@
+﻿@* This is _MapPartial.cshtml *@
+<div id="mapid" style="height: 400px;"></div>
+
+<script>
+    // Ensure the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        L.Icon.Default.imagePath = '/Content/images/';
+
+        var map = L.map('mapid').setView([40.807, 29.354], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        let currentMarker = null;
+
+        // Define a function to update the map and text with the user's location
+        // globally accessible from the parent window
+        window.updateMap = function (latitude, longitude) {
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
+            }
+
+            map.setView([latitude, longitude], 13);
+            currentMarker = L.marker([latitude, longitude]).addTo(map);
+        }
+    });
+</script>
